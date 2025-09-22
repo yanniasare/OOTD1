@@ -1,0 +1,61 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global resets and base styles */
+html, body, #root {
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply antialiased bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100 font-sans;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply font-heading;
+}
+
+/* Custom utility classes */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-md font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+  }
+  
+  .btn-primary {
+    @apply btn bg-accent text-white hover:bg-accent-dark;
+  }
+  
+  .btn-secondary {
+    @apply btn bg-white text-gray-900 border border-gray-200 hover:bg-gray-50;
+  }
+  
+  .product-card {
+    @apply relative bg-white dark:bg-gray-900 overflow-hidden rounded-lg transition-all duration-300;
+  }
+  
+  .product-card-image {
+    @apply aspect-[3/4] w-full object-cover transition-transform duration-300;
+  }
+  
+  .product-card:hover .product-card-image {
+    @apply scale-105;
+  }
+  
+  .product-card-info {
+    @apply p-4;
+  }
+  
+  .section-title {
+    @apply text-2xl md:text-3xl font-heading font-semibold mb-6;
+  }
+  
+  .section-subtitle {
+    @apply text-lg md:text-xl font-heading font-medium mb-4;
+  }
+}

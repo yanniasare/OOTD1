@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useCart } from '../context/useCart.js';
 import { useToast } from '../context/ToastContext.jsx';
 import { useWishlist } from '../context/WishlistContext.jsx';
+import { formatCurrency } from '../src/utils/currency.js';
 
 export default function ProductCard({ product }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -124,11 +125,11 @@ export default function ProductCard({ product }) {
             <p className="font-medium">
               {product.originalPrice && product.originalPrice > product.price ? (
                 <>
-                  <span className="text-accent mr-2">${product.price.toFixed(2)}</span>
-                  <span className="text-gray-500 line-through text-sm">${product.originalPrice.toFixed(2)}</span>
+                  <span className="text-accent mr-2">{formatCurrency(product.price)}</span>
+                  <span className="text-gray-500 line-through text-sm">{formatCurrency(product.originalPrice)}</span>
                 </>
               ) : (
-                <span>${product.price.toFixed(2)}</span>
+                <span>{formatCurrency(product.price)}</span>
               )}
             </p>
           </div>

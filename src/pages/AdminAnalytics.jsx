@@ -2,6 +2,7 @@ import { useContext, useMemo } from 'react';
 import { useProducts } from '../context/useProducts.js';
 import { OrdersContext } from '../context/ordersContext.js';
 import AdminLayout from '../components/admin/AdminLayout.jsx';
+import { formatCurrency } from '../utils/currency.js';
 
 export default function AdminAnalytics() {
   const { products } = useProducts();
@@ -177,8 +178,8 @@ export default function AdminAnalytics() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 dark:text-gray-400">Total Revenue</p>
-                <p className="text-2xl font-bold text-green-600">GHC {analytics.revenue.total.toFixed(2)}</p>
-                <p className="text-xs text-gray-500">Last 30 days: GHC {analytics.revenue.last30Days.toFixed(2)}</p>
+                <p className="text-2xl font-bold text-green-600">{formatCurrency(analytics.revenue.total)}</p>
+                <p className="text-xs text-gray-500">Last 30 days: {formatCurrency(analytics.revenue.last30Days)}</p>
               </div>
               <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
                 💰
@@ -203,7 +204,7 @@ export default function AdminAnalytics() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 dark:text-gray-400">Avg Order Value</p>
-                <p className="text-2xl font-bold text-purple-600">GHC {analytics.revenue.avgOrderValue.toFixed(2)}</p>
+                <p className="text-2xl font-bold text-purple-600">{formatCurrency(analytics.revenue.avgOrderValue)}</p>
                 <p className="text-xs text-gray-500">Per paid order</p>
               </div>
               <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
@@ -233,7 +234,7 @@ export default function AdminAnalytics() {
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <div className="text-2xl font-bold text-pink-600">GHC {analytics.products.brunchRevenue.toFixed(2)}</div>
+              <div className="text-2xl font-bold text-pink-600">{formatCurrency(analytics.products.brunchRevenue)}</div>
               <div className="text-sm text-gray-600">Brunch Category Revenue</div>
             </div>
             <div>
@@ -254,7 +255,7 @@ export default function AdminAnalytics() {
           <div className="bg-white dark:bg-gray-900 p-6 rounded-lg border">
             <h3 className="text-lg font-semibold mb-4">Revenue Trend (6 Months)</h3>
             <div className="space-y-3">
-              {monthlyTrend.map((month, index) => {
+              {monthlyTrend.map((month) => {
                 const maxRevenue = Math.max(...monthlyTrend.map(m => m.revenue));
                 const width = maxRevenue > 0 ? (month.revenue / maxRevenue) * 100 : 0;
                 
@@ -269,8 +270,8 @@ export default function AdminAnalytics() {
                         ></div>
                       </div>
                     </div>
-                    <div className="w-20 text-sm font-medium text-right">
-                      GHC {month.revenue.toFixed(0)}
+                    <div className="w-28 text-sm font-medium text-right">
+                      {formatCurrency(month.revenue)}
                     </div>
                   </div>
                 );
@@ -303,8 +304,8 @@ export default function AdminAnalytics() {
                           ></div>
                         </div>
                       </div>
-                      <div className="w-20 text-sm font-medium text-right">
-                        GHC {category.revenue.toFixed(0)}
+                      <div className="w-28 text-sm font-medium text-right">
+                        {formatCurrency(category.revenue)}
                       </div>
                     </div>
                   </div>
@@ -338,8 +339,8 @@ export default function AdminAnalytics() {
                     </td>
                     <td className="px-4 py-3 font-medium">{product.name}</td>
                     <td className="px-4 py-3">{product.quantity}</td>
-                    <td className="px-4 py-3 font-medium">GHC {product.revenue.toFixed(2)}</td>
-                    <td className="px-4 py-3">GHC {(product.revenue / product.quantity).toFixed(2)}</td>
+                    <td className="px-4 py-3 font-medium">{formatCurrency(product.revenue)}</td>
+                    <td className="px-4 py-3">{formatCurrency(product.revenue / product.quantity)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -362,7 +363,7 @@ export default function AdminAnalytics() {
               <div className="text-xs text-gray-500">(0 units)</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-green-600">GHC {analytics.inventory.totalValue.toFixed(0)}</div>
+              <div className="text-2xl font-bold text-green-600">{formatCurrency(analytics.inventory.totalValue)}</div>
               <div className="text-sm text-gray-600">Inventory Value</div>
               <div className="text-xs text-gray-500">(at retail price)</div>
             </div>

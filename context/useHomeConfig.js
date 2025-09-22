@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback } from 'react';
 const KEY = 'home_config_v1';
 
 const defaultConfig = {
-  promoText: 'Free shipping over GHC 300 · 30-day returns · Secure checkout',
+  promoText: 'Free shipping over GHS 300 · 30-day returns · Secure checkout',
   hero: {
     headline: 'Discover modern styles for every season',
     sub: 'Curated pieces for every occasion, with sizes and fits that work for you.',

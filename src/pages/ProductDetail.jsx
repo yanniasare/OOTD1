@@ -8,6 +8,7 @@ import { useUI } from '../context/UIContext.jsx';
 import ImageGallery from '../components/ui/ImageGallery.jsx';
 import ProductSection from '../components/ui/ProductSection.jsx';
 import SEO, { generateProductStructuredData, generateBreadcrumbStructuredData } from '../components/SEO.jsx';
+import { formatCurrency } from '../utils/currency.js';
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -91,7 +92,7 @@ export default function ProductDetail() {
     <>
       <SEO
         title={`${product.name} - ${product.category} | OOTD Fashion`}
-        description={`${product.description} Shop ${product.name} at OOTD. Price: GHC ${product.price}. Available sizes: ${product.sizes?.join(', ')}. Free shipping over GHC 300.`}
+        description={`${product.description} Shop ${product.name} at OOTD. Price: GHS ${product.price}. Available sizes: ${product.sizes?.join(', ')}. Free shipping over GHS 300.`}
         keywords={`${product.name}, ${product.category}, fashion, clothing, online shopping, OOTD`}
         image={product.image}
         type="product"
@@ -134,11 +135,11 @@ export default function ProductDetail() {
               <h1 className="text-3xl font-heading font-semibold">{product.name}</h1>
               <div className="mt-2 flex items-baseline gap-3">
                 <span className="text-2xl font-medium">
-                  ${product.price.toFixed(2)}
+                  {formatCurrency(product.price)}
                 </span>
                 {product.originalPrice && product.originalPrice > product.price && (
                   <span className="text-lg text-gray-500 line-through">
-                    ${product.originalPrice.toFixed(2)}
+                    {formatCurrency(product.originalPrice)}
                   </span>
                 )}
               </div>
@@ -248,7 +249,7 @@ export default function ProductDetail() {
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span>Free standard shipping on orders over GHC 300</span>
+                  <span>Free standard shipping on orders over GHS 300</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">

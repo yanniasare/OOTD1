@@ -16,6 +16,7 @@ import AdminLogin from './pages/AdminLogin.jsx';
 import FAQ from './pages/FAQ.jsx';
 import Contact from './pages/Contact.jsx';
 import OrderSuccess from './pages/OrderSuccess.jsx';
+import PaymentCallback from './pages/PaymentCallback.jsx';
 import AdminHomeSettings from './pages/AdminHomeSettings.jsx';
 import TrackOrder from './pages/TrackOrder.jsx';
 import Wishlist from './pages/Wishlist.jsx';
@@ -73,6 +74,7 @@ function App() {
               <Route path="/faq" element={<FAQ />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/order-success/:id" element={<OrderSuccess />} />
+              <Route path="/payment/callback" element={<PaymentCallback />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

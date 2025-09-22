@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { useToast } from '../context/ToastContext.jsx';
 import AdminLayout from '../components/admin/AdminLayout.jsx';
 
@@ -29,7 +29,7 @@ export default function AdminMarketing() {
       type: 'fixed',
       value: 25,
       code: 'WELCOME25',
-      description: 'Welcome to OOTD! Get GHC 25 off your first brunch outfit',
+      description: 'Welcome to OOTD! Get GHS 25 off your first brunch outfit',
       startDate: '2024-01-01',
       endDate: '2024-12-31',
       status: 'active',
@@ -63,7 +63,7 @@ export default function AdminMarketing() {
       status: 'active',
       reach: '2.5K',
       engagement: '8.2%',
-      budget: 'GHC 200',
+      budget: 'GHS 200',
       description: 'Showcase brunch outfits with local influencers'
     },
     {
@@ -74,7 +74,7 @@ export default function AdminMarketing() {
       status: 'planned',
       reach: '0',
       engagement: '0%',
-      budget: 'GHC 150',
+      budget: 'GHS 150',
       description: 'Quick outfit change videos for brunch dates'
     },
     {
@@ -85,7 +85,7 @@ export default function AdminMarketing() {
       status: 'active',
       reach: '500',
       engagement: '15.3%',
-      budget: 'GHC 50',
+      budget: 'GHS 50',
       description: 'Share new arrivals with existing customers'
     }
   ];
@@ -285,7 +285,7 @@ export default function AdminMarketing() {
                     className="w-full border rounded px-3 py-2"
                   >
                     <option value="percentage">Percentage (%)</option>
-                    <option value="fixed">Fixed Amount (GHC)</option>
+                    <option value="fixed">Fixed Amount (GHS)</option>
                   </select>
                 </div>
                 <div>
@@ -320,7 +320,7 @@ export default function AdminMarketing() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">Min Order Value (GHC)</label>
+                  <label className="block text-sm font-medium mb-1">Min Order Value (GHS)</label>
                   <input
                     type="number"
                     value={newPromotion.minOrderValue}
@@ -387,7 +387,7 @@ export default function AdminMarketing() {
                       <div>
                         <span className="text-gray-600">Discount:</span>
                         <div className="font-medium">
-                          {promo.type === 'percentage' ? `${promo.value}%` : `GHC ${promo.value}`}
+                          {promo.type === 'percentage' ? `${promo.value}%` : `GHS ${promo.value}`}
                         </div>
                       </div>
                       <div>
@@ -402,7 +402,7 @@ export default function AdminMarketing() {
                       </div>
                       <div>
                         <span className="text-gray-600">Min Order:</span>
-                        <div className="font-medium">GHC {promo.minOrderValue}</div>
+                        <div className="font-medium">GHS {promo.minOrderValue}</div>
                       </div>
                     </div>
                     {promo.description && (

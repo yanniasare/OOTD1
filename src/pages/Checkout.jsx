@@ -5,6 +5,8 @@ import { useCart } from '../context/useCart.js';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '../context/ToastContext.jsx';
 import { OrdersContext } from '../context/ordersContext.js';
+import { apiFetch } from '../utils/api.js';
+import { formatCurrency } from '../utils/currency.js';
 
 export default function Checkout() {
   const { items, clearCart } = useCart();
@@ -111,22 +113,37 @@ export default function Checkout() {
             ],
           },
           callback: function (response) {
-            setLoadingPaystack(false);
-            // Create order record
-            const order = addOrder({
-              items,
-              totals: { subtotal, shipping, total },
-              customer: {
-                name: `${form.firstName} ${form.lastName}`.trim(),
-                email: form.email,
-                phone: form.phone,
-                address: { line1: form.address1, line2: form.address2, city: form.city, region: form.region, country: form.country },
-              },
-              payment: { method: 'card', provider: 'paystack', reference: response?.reference || orderRef },
-              status: 'paid',
-            });
-            clearCart();
-            navigate(`/order-success/${order.id}`);
+            (async () => {
+              setLoadingPaystack(false);
+              // Verify payment on backend for server-side confirmation
+              try {
+                if (response?.reference) {
+                  await apiFetch('/api/payments/verify', {
+                    method: 'POST',
+                    body: { reference: response.reference },
+                  });
+                }
+              } catch (e) {
+                // Do not block the flow; inform the user and continue
+                show({ type: 'warning', message: `Payment verified client-side, but server verification failed: ${e.message}` });
+              }
+
+              // Create local order record for UI continuity
+              const order = addOrder({
+                items,
+                totals: { subtotal, shipping, total },
+                customer: {
+                  name: `${form.firstName} ${form.lastName}`.trim(),
+                  email: form.email,
+                  phone: form.phone,
+                  address: { line1: form.address1, line2: form.address2, city: form.city, region: form.region, country: form.country },
+                },
+                payment: { method: 'card', provider: 'paystack', reference: response?.reference || orderRef },
+                status: 'paid',
+              });
+              clearCart();
+              navigate(`/order-success/${order.id}`);
+            })();
           },
           onClose: function () {
             setLoadingPaystack(false);
@@ -296,14 +313,14 @@ export default function Checkout() {
                     <p className="font-medium">{it.name} <span className="text-gray-500">× {it.quantity}</span></p>
                     <p className="text-gray-600 dark:text-gray-400">Size: {it.size}</p>
                   </div>
-                  <div className="font-medium">GHC {(it.price * it.quantity).toFixed(2)}</div>
+                  <div className="font-medium">{formatCurrency(it.price * it.quantity)}</div>
                 </li>
               ))}
             </ul>
             <div className="mt-3 space-y-1 text-sm">
-              <div className="flex items-center justify-between"><span className="text-gray-600 dark:text-gray-400">Subtotal</span><span>GHC {subtotal.toFixed(2)}</span></div>
-              <div className="flex items-center justify-between"><span className="text-gray-600 dark:text-gray-400">Shipping</span><span>GHC {shipping.toFixed(2)}</span></div>
-              <div className="flex items-center justify-between font-semibold border-t pt-2"><span>Total</span><span>GHC {total.toFixed(2)}</span></div>
+              <div className="flex items-center justify-between"><span className="text-gray-600 dark:text-gray-400">Subtotal</span><span>{formatCurrency(subtotal)}</span></div>
+              <div className="flex items-center justify-between"><span className="text-gray-600 dark:text-gray-400">Shipping</span><span>{formatCurrency(shipping)}</span></div>
+              <div className="flex items-center justify-between font-semibold border-t pt-2"><span>Total</span><span>{formatCurrency(total)}</span></div>
             </div>
           </aside>
         </div>
@@ -321,7 +338,7 @@ export default function Checkout() {
                 <ol className="list-decimal list-inside space-y-1">
                   <li>Dial <strong>*170#</strong></li>
                   <li>Select Pay and then Merchant Payments</li>
-                  <li>Enter Merchant ID and Amount: <strong>GHC {total.toFixed(2)}</strong></li>
+                  <li>Enter Merchant ID and Amount: <strong>{formatCurrency(total)}</strong></li>
                   <li>Reference: <strong>ORD-{new Date().getTime()}</strong></li>
                   <li>Approve with MoMo PIN</li>
                 </ol>
@@ -330,7 +347,7 @@ export default function Checkout() {
                 <ol className="list-decimal list-inside space-y-1">
                   <li>Dial <strong>*110#</strong></li>
                   <li>Select Make Payments</li>
-                  <li>Enter Merchant ID and Amount: <strong>GHC {total.toFixed(2)}</strong></li>
+                  <li>Enter Merchant ID and Amount: <strong>{formatCurrency(total)}</strong></li>
                   <li>Reference: <strong>ORD-{new Date().getTime()}</strong></li>
                   <li>Approve payment</li>
                 </ol>
@@ -339,7 +356,7 @@ export default function Checkout() {
                 <ol className="list-decimal list-inside space-y-1">
                   <li>Dial <strong>*110#</strong></li>
                   <li>Select Pay Bill / Merchant</li>
-                  <li>Enter Merchant ID and Amount: <strong>GHC {total.toFixed(2)}</strong></li>
+                  <li>Enter Merchant ID and Amount: <strong>{formatCurrency(total)}</strong></li>
                   <li>Reference: <strong>ORD-{new Date().getTime()}</strong></li>
                   <li>Confirm with PIN</li>
                 </ol>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useUser } from '../context/UserContext';
 import { useToast } from '../context/ToastContext';
 import { Link, Navigate } from 'react-router-dom';
+import { formatCurrency } from '../utils/currency.js';
 
 export default function Account() {
   const { user, isLoggedIn, updateProfile, addAddress, updateAddress, deleteAddress, logout } = useUser();
@@ -248,7 +249,7 @@ export default function Account() {
                       <p className="text-sm text-gray-600 dark:text-gray-400">
                         Placed on {new Date(order.createdAt).toLocaleDateString()}
                       </p>
-                      <p className="font-medium">${order.total.toFixed(2)}</p>
+                      <p className="font-medium">{formatCurrency(order.total)}</p>
                     </div>
                   ))}
                 </div>

@@ -37,7 +37,7 @@ export default function Header() {
     <header className="sticky top-0 z-40 bg-white dark:bg-gray-950 shadow-navbar">
       {/* Top announcement bar */}
       <div className="bg-black dark:bg-gray-900 text-white py-2 text-center text-xs">
-        <p className="font-medium">Easy brunch outfits & casual fashion · Free shipping over GHC 300 · 30-day returns</p>
+        <p className="font-medium">Easy brunch outfits & casual fashion · Free shipping over GHS 300 · 30-day returns</p>
       </div>
       
       {/* Main navbar */}

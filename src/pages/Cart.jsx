@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useState, useMemo } from 'react';
 import Breadcrumbs from '../components/Breadcrumbs.jsx';
 import PromoCodeInput from '../components/ui/PromoCodeInput.jsx';
+import { formatCurrency } from '../utils/currency.js';
 
 export default function Cart() {
   const { items, updateQuantity, removeFromCart, clearCart } = useCart();
@@ -63,7 +64,7 @@ export default function Cart() {
                   <div className="flex-1 min-w-0">
                     <h3 className="font-medium truncate">{it.name}</h3>
                     <p className="text-sm text-gray-600 dark:text-gray-400">Size: {it.size}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">GHC {it.price.toFixed(2)}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{formatCurrency(it.price)}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <input
@@ -95,13 +96,13 @@ export default function Cart() {
             <div className="space-y-2 text-sm border-t border-gray-200 dark:border-gray-700 pt-4">
               <div className="flex items-center justify-between">
                 <span>Subtotal</span>
-                <span className="font-medium">${totals.subtotal.toFixed(2)}</span>
+                <span className="font-medium">{formatCurrency(totals.subtotal)}</span>
               </div>
               
               {totals.discount > 0 && (
                 <div className="flex items-center justify-between text-green-600 dark:text-green-400">
                   <span>Discount</span>
-                  <span className="font-medium">-${totals.discount.toFixed(2)}</span>
+                  <span className="font-medium">-{formatCurrency(totals.discount)}</span>
                 </div>
               )}
               
@@ -110,18 +111,18 @@ export default function Cart() {
                 <span className={totals.freeShipping ? 'line-through' : ''}>
                   {totals.freeShipping ? (
                     <>
-                      <span className="line-through">${shippingCost.toFixed(2)}</span>
+                      <span className="line-through">{formatCurrency(shippingCost)}</span>
                       <span className="ml-2 text-green-600 dark:text-green-400 font-medium">FREE</span>
                     </>
                   ) : (
-                    `$${totals.shipping.toFixed(2)}`
+                    `${formatCurrency(totals.shipping)}`
                   )}
                 </span>
               </div>
               
               <div className="border-t border-gray-200 dark:border-gray-700 pt-2 flex items-center justify-between font-semibold text-lg">
                 <span>Total</span>
-                <span>${totals.total.toFixed(2)}</span>
+                <span>{formatCurrency(totals.total)}</span>
               </div>
             </div>
             
